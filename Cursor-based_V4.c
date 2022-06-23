@@ -1,11 +1,3 @@
-//void initVirtualHeap_V2(VirtualHeap *VH){
-//	int i;
-//	for(i = SIZE-1; i >= 0; i--){
-//		VH->Nodes[i].link = i-1;
-//	}
-//	VH->avail = SIZE-1;
-//}
-
 //typedef struct{
 //	char data;
 //	int link;
@@ -56,6 +48,16 @@ void initVirtualHeap_V1(VirtualHeap *VH){
 	int i;
 	for(i = 0; i < SIZE; i++){
 		VH->Nodes[i].data = 0;
+		VH->Nodes[i].link = i+1;
+	}
+	VH->Nodes[SIZE-1].link = -1;
+	VH->avail = 0;
+}
+
+void initVirtualHeap_V2(VirtualHeap *VH){
+	int i;
+	for(i = SIZE-1; i >= 0; i--){
+		VH->Nodes[i].data = 0;
 		VH->Nodes[i].link = i-1;
 	}
 	VH->avail = SIZE-1;
@@ -78,16 +80,6 @@ int allocateSpace(VirtualHeap *VH){
 	return retAvail;
 }
 
-//Linked List
-void insertFirst(List *L, char elem){
-	List temp = malloc(sizeof(NodeType));
-	if(temp != NULL){
-		temp->data = elem;
-		temp->link = *L;
-		*L = temp;
-	}
-}
-
 //Cursor-based
 void insertFirst(List *L, char elem, VirtualHeap *VH){
 	List temp = allocateSpace(VH);
@@ -103,7 +95,7 @@ int main(){
 	VirtualHeap VH;
 	List L;
 
-	initVirtualHeap_V1(&VH);
+//	initVirtualHeap_V1(&VH);
 //	initVirtualHeap_V2(&VH);
 //	initVirtualHeap_V4(&VH);
 	visualSpace(VH);
